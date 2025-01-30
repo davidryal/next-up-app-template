@@ -35,6 +35,42 @@
   - Removed Anthropic API route
   - Updated OpenAI route to use direct SDK
   - Streamlined AI integration
+- `DEP:v0.7` React Component Refactoring ✅
+  - Fixed React Hook dependencies
+  - Removed deprecated children prop usage
+  - Updated Next.js Image component
+  - Improved component type safety
+- `DEP:v0.8` OpenAI Route Streaming Fix ✅
+  - Corrected streaming imports from `ai` package
+  - Maintained OpenAI SDK integration
+  - Ensured proper streaming functionality
+- `DEP:v0.9` OpenAI Streaming Refactoring ✅
+  - Updated streaming method using `createStreamData`
+  - Maintained OpenAI SDK integration
+  - Improved stream handling
+- `DEP:v0.10` Component Type Safety Improvements ✅
+  - Fixed ProjectWizard default selection logic
+  - Updated ThemeProvider prop types
+  - Improved type checking for components
+- `DEP:v0.12` OpenAI Streaming Type Handling ✅
+  - Fixed data stream writing with correct type
+  - Ensured compatibility with AI package streaming
+  - Improved stream termination
+- `DEP:v0.13` Component Linting Fixes ✅
+  - Resolved missing dependencies in useEffect
+  - Fixed prop type definitions
+  - Improved React component type safety
+- `DEP:v0.14` Component Prop Type Refinement ✅
+  - Updated ThemeProvider to use React.PropsWithChildren
+  - Improved type safety for component props
+  - Removed explicit children prop usage
+- `DEP:v0.15` ProjectWizard Rendering Strategy Update ✅
+  - Replaced JSX with React.createElement
+  - Eliminated potential children prop warnings
+  - Improved component rendering approach
+- `DEP:v0.17` AI Integration Refinement ✅
+  - Removed Anthropic option from AI integration choices
+  - Maintained OpenAI and other AI integration options
 
 ## Future AI Enhancements
 1. 💡 Smart stack recommendations based on:

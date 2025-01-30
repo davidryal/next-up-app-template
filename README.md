@@ -62,11 +62,9 @@ A modern, interactive template wizard for building lightweight and cross-platfor
 - **MongoDB + Mongoose**: Flexible schema design
 - **SQLite**: Local-first development
 - **Supabase**: Hosted PostgreSQL with realtime features
-- **PlanetScale**: Serverless MySQL platform
 
 #### 3. Authentication Methods
 - **NextAuth.js**: Multi-provider authentication
-- **Clerk**: Complete auth solution
 - **Magic Links**: Passwordless email authentication
 - **Web3/Wallet**: Crypto wallet authentication
 - **Firebase Auth**: Google's auth platform
@@ -77,8 +75,6 @@ A modern, interactive template wizard for building lightweight and cross-platfor
 - **Chakra UI**: Accessible component library
 - **Material UI**: Google's Material Design
 - **Shadcn/ui**: High-quality components
-- **Radix UI**: Unstyled, accessible components
-- **DaisyUI**: Tailwind component library
 
 #### 5. AI Integration
 - **OpenAI**: Direct SDK integration
@@ -89,6 +85,7 @@ A modern, interactive template wizard for building lightweight and cross-platfor
 ### Supported AI Providers
 - **OpenAI**: Direct SDK integration
 - **OpenRouter**: Flexible multi-provider support
+- **Replicate**: Model deployment
 
 ### Deployment Notes
 - Simplified AI SDK dependencies

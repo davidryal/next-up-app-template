@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import { OpenAIStream, StreamingTextResponse } from "ai";
+import { createDataStreamResponse } from "ai";
 
 export const runtime = "edge";
 
@@ -16,6 +16,15 @@ export async function POST(req: Request) {
     messages
   });
 
-  const stream = OpenAIStream(response);
-  return new StreamingTextResponse(stream);
+  return createDataStreamResponse({
+    execute: async (dataStream) => {
+      for await (const chunk of response) {
+        const content = chunk.choices[0]?.delta?.content || "";
+        if (content) {
+          dataStream.write(`0:${content}\n`);
+        }
+      }
+      dataStream.write(`0:\n`);
+    }
+  });
 }
