@@ -1,15 +1,15 @@
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-export type RootStackParamList = {
-  Home: undefined;
-  Dashboard: undefined;
-  Profile: { userId: string };
-};
+// Placeholder screens for demonstration purposes
+const HomeScreen = () => <div>Home Screen</div>;
+const DashboardScreen = () => <div>Dashboard Screen</div>;
+const ProfileScreen = () => <div>Profile Screen</div>;
 
-const Stack = createStackNavigator<RootStackParamList>();
+const Stack = createStackNavigator();
 
-export const AppNavigator = () => {
+export function MobileStack() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -19,4 +19,4 @@ export const AppNavigator = () => {
       </Stack.Navigator>
     </NavigationContainer>
   );
-};
+}

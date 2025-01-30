@@ -24,6 +24,7 @@ export function HomePageClient({ paths }: HomePageProps): JSX.Element {
   const [selections, setSelections] = React.useState<Record<string, string[]>>({});
   const [selectedPlatforms, setSelectedPlatforms] = React.useState<string[]>(['web']);
   const [isExpertMode, setIsExpertMode] = React.useState(false);
+  const [isCopied, setIsCopied] = React.useState(false);
   const { theme = 'light', setTheme } = useTheme();
 
   React.useEffect(() => {
@@ -53,8 +54,18 @@ export function HomePageClient({ paths }: HomePageProps): JSX.Element {
 
   const handlePathSelect = (pathId: string): void => {
     setSelectedPath(pathId);
-    setSelections({});
-    setSelectedPlatforms([]);
+    
+    // Ensure web platform is always present, but don't remove other platforms
+    const currentPlatforms = selectedPlatforms.includes('web') 
+      ? selectedPlatforms 
+      : [...selectedPlatforms, 'web'];
+    setSelectedPlatforms(currentPlatforms);
+    
+    // Preserve existing selections
+    const updatedSelections = { ...selections };
+    setSelections(updatedSelections);
+    
+    // Reset command to trigger recalculation with new template
     setCommand('');
   };
 
@@ -109,7 +120,7 @@ export function HomePageClient({ paths }: HomePageProps): JSX.Element {
             {/* Column 1: Mode and Platform Selection */}
             <div className="space-y-8 bg-white/60 dark:bg-gray-800/40 p-6 rounded-xl backdrop-blur-sm">
               <div className="space-y-4">
-                <h2 className="text-xl font-semibold mb-4">Development Mode</h2>
+                <h2 className="text-xl font-semibold mb-4">Step 1. Confirm Development Mode</h2>
                 <button
                   onClick={() => setIsExpertMode(!isExpertMode)}
                   className="w-full flex items-center justify-between p-4 rounded-lg border border-amber-200 bg-amber-50 dark:border-amber-900/50 dark:bg-amber-900/20"
@@ -138,7 +149,7 @@ export function HomePageClient({ paths }: HomePageProps): JSX.Element {
               </div>
 
               <div className="space-y-4">
-                <h2 className="text-xl font-semibold mb-4">Choose Platform(s)</h2>
+                <h2 className="text-xl font-semibold mb-4">Step 2. Choose Platform(s)</h2>
                 <div className="space-y-2">
                   {platforms.map((platform) => (
                     <button
@@ -177,7 +188,7 @@ export function HomePageClient({ paths }: HomePageProps): JSX.Element {
 
             {/* Column 2: Stack Configuration */}
             <div className="space-y-4 bg-white/60 dark:bg-gray-800/40 p-6 rounded-xl backdrop-blur-sm">
-              <h2 className="text-xl font-semibold mb-4">Configure Stack</h2>
+              <h2 className="text-xl font-semibold mb-4">Step 3. Configure Stack</h2>
               <div className="space-y-2">
                 <ProjectWizard
                   templatePath={selectedPath || 'blank'}
@@ -191,7 +202,7 @@ export function HomePageClient({ paths }: HomePageProps): JSX.Element {
             {/* Column 3: Templates (only on xl screens) */}
             <div className="hidden xl:block bg-white/60 dark:bg-gray-800/40 p-6 rounded-xl backdrop-blur-sm">
               <div className="space-y-4">
-                <h2 className="text-xl font-semibold mb-4">Choose Template</h2>
+                <h2 className="text-xl font-semibold mb-4">Step 4.    Choose Template</h2>
                 <div className="h-[440px] overflow-y-auto pr-2">
                   <PathSelector
                     paths={paths}
@@ -223,29 +234,32 @@ export function HomePageClient({ paths }: HomePageProps): JSX.Element {
           </div>
 
           {/* Command section */}
-          <div className="p-6 bg-white/80 dark:bg-gray-800/60 rounded-xl backdrop-blur-sm shadow-sm">
-            <div className="flex justify-between items-center">
-              <h3 className="text-lg font-semibold">Create Your Project</h3>
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-600 dark:text-gray-400">Copy this:</span>
-                <button
-                  onClick={() => {
-                    navigator.clipboard.writeText(command || `npx create-next-app@latest --template ${selectedPath ?? 'blank'}`);
-                  }}
-                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-                  title="Copy to clipboard"
-                >
-                  <DynamicIcon name="copy" size={20} />
-                </button>
+          {command && (
+            <div className="p-6 bg-white/80 dark:bg-gray-800/60 rounded-xl backdrop-blur-sm shadow-sm">
+              <div className="flex justify-between items-center">
+                <h3 className="text-lg font-semibold">Step 5. Create Your Project</h3>
+                <span className="text-sm text-gray-600 dark:text-gray-400">
+                  {isCopied ? 'Copied!' : 'Click to copy'}
+                </span>
               </div>
+              <button 
+                onClick={() => {
+                  navigator.clipboard.writeText(command).then(() => {
+                    setIsCopied(true);
+                    setTimeout(() => setIsCopied(false), 2000);
+                  });
+                }}
+                className={`
+                  w-full text-left mt-4 p-4 rounded-lg border transition-colors
+                  ${isCopied 
+                    ? 'bg-green-50 border-green-300 dark:bg-green-900/20 dark:border-green-700' 
+                    : 'bg-gray-50 border-gray-200 hover:bg-gray-100 dark:bg-gray-900 dark:border-gray-700 dark:hover:bg-gray-850'}
+                `}
+              >
+                <pre className="overflow-x-auto"><code>{command}</code></pre>
+              </button>
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Run this command in your terminal to create your project:
-            </p>
-            <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
-              <code>{command || `npx create-next-app@latest --template ${selectedPath ?? 'blank'}`}</code>
-            </pre>
-          </div>
+          )}
 
           <div className="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
             <p>

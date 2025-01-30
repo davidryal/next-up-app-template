@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { DynamicIcon } from './DynamicIcon';
 import { PathSelector } from './PathSelector';
 import { ProjectWizard } from './ProjectWizard';
 import type { AppPath } from '@/lib/paths';
@@ -12,7 +13,20 @@ interface ProjectBuilderClientProps {
 export function ProjectBuilderClient({ paths }: ProjectBuilderClientProps): JSX.Element {
   const [selectedPath, setSelectedPath] = React.useState<string | null>(null);
   const [command, setCommand] = React.useState<string>('');
-  const [selections, setSelections] = React.useState<Record<string, string>>({});
+  const [selections, setSelections] = React.useState<Record<string, string[]>>({
+    platform: ['web']
+  });
+  const [isCopied, setIsCopied] = React.useState(false);
+  const [isExpertMode, setIsExpertMode] = React.useState(false); // Add isExpertMode state
+
+  const handleCopyCommand = () => {
+    if (command) {
+      navigator.clipboard.writeText(command).then(() => {
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000);
+      });
+    }
+  };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -32,6 +46,7 @@ export function ProjectBuilderClient({ paths }: ProjectBuilderClientProps): JSX.
             templatePath={selectedPath}
             onCommandChange={setCommand}
             onSelectionsChange={setSelections}
+            isExpertMode={isExpertMode !== undefined ? isExpertMode : undefined} // Ensure optional prop is passed
           />
         </div>
       )}
@@ -43,8 +58,8 @@ export function ProjectBuilderClient({ paths }: ProjectBuilderClientProps): JSX.
             <h3 className="font-medium mb-2">Deployment Platform</h3>
             <select
               className="w-full p-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-md"
-              value={selections.platform || ''}
-              onChange={(e) => setSelections({ ...selections, platform: e.target.value })}
+              value={selections.platform?.[0] || ''}
+              onChange={(e) => setSelections({ ...selections, platform: [e.target.value] })}
             >
               <option value="">Select Platform</option>
               <option value="vercel">Vercel</option>
@@ -57,13 +72,28 @@ export function ProjectBuilderClient({ paths }: ProjectBuilderClientProps): JSX.
 
       {command && (
         <div className="md:col-span-2 lg:col-span-3 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
-          <h3 className="text-lg font-semibold mb-2">Create Your Project</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-            Run this command in your terminal to create your project:
-          </p>
-          <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
-            <code>{command}</code>
-          </pre>
+          <div className="flex justify-between items-center mb-2">
+            <h3 className="text-lg font-semibold">Step 5. Create Your Project</h3>
+            <span className="text-sm text-gray-600 dark:text-gray-400">
+              {isCopied ? 'Copied!' : 'Click to copy'}
+            </span>
+          </div>
+          <button 
+            onClick={() => {
+              navigator.clipboard.writeText(command).then(() => {
+                setIsCopied(true);
+                setTimeout(() => setIsCopied(false), 2000);
+              });
+            }}
+            className={`
+              w-full text-left p-3 rounded-lg border transition-colors
+              ${isCopied 
+                ? 'bg-green-50 border-green-300 dark:bg-green-900/20 dark:border-green-700' 
+                : 'bg-gray-50 border-gray-200 hover:bg-gray-100 dark:bg-gray-900 dark:border-gray-700 dark:hover:bg-gray-850'}
+            `}
+          >
+            <code className="break-all">{command}</code>
+          </button>
         </div>
       )}
     </div>

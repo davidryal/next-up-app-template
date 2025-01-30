@@ -2,20 +2,23 @@
 
 import * as React from 'react';
 import { motion } from 'framer-motion';
-import type { ProjectPath } from '@/lib/paths';
+import type { AppPath } from '@/lib/paths';
 import { PathSelector } from './PathSelector';
 import { ProjectWizard } from './ProjectWizard';
 import { stacks } from '@/lib/stacks';
 
 interface TemplateBuilderProps {
-  paths: ProjectPath[];
+  paths: AppPath[];
 }
 
 export function TemplateBuilder({ paths }: TemplateBuilderProps): JSX.Element {
   const [selectedPath, setSelectedPath] = React.useState<string | null>(null);
   const [command, setCommand] = React.useState('');
-  const [selections, setSelections] = React.useState<Record<string, string>>({});
+  const [selections, setSelections] = React.useState<Record<string, string[]>>({
+    platform: ['web']
+  });
   const [selectedPlatforms, setSelectedPlatforms] = React.useState<string[]>([]);
+  const [isExpertMode, setIsExpertMode] = React.useState(false); // Add isExpertMode state
 
   const platforms = [
     { id: 'web', label: 'Web', description: 'Build for browsers' },
@@ -28,7 +31,7 @@ export function TemplateBuilder({ paths }: TemplateBuilderProps): JSX.Element {
     updateCommand(pathId, selections, selectedPlatforms);
   };
 
-  const handleSelectionsChange = (newSelections: Record<string, string>) => {
+  const handleSelectionsChange = (newSelections: Record<string, string[]>) => {
     setSelections(newSelections);
     updateCommand(selectedPath, newSelections, selectedPlatforms);
   };
@@ -45,7 +48,7 @@ export function TemplateBuilder({ paths }: TemplateBuilderProps): JSX.Element {
 
   const updateCommand = (
     pathId: string | null,
-    stackSelections: Record<string, string>,
+    stackSelections: Record<string, string[]>,
     platforms: string[]
   ) => {
     if (!pathId) {
@@ -54,7 +57,7 @@ export function TemplateBuilder({ paths }: TemplateBuilderProps): JSX.Element {
     }
 
     const stackArgs = Object.entries(stackSelections)
-      .map(([key, value]) => `--${key} ${value}`)
+      .map(([key, value]) => `--${key} ${value.join(',')}`)
       .join(' ');
 
     const platformArgs = platforms.length > 0
@@ -72,7 +75,7 @@ export function TemplateBuilder({ paths }: TemplateBuilderProps): JSX.Element {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {/* Left column - Template Selection */}
         <div>
-          <h2 className="text-2xl font-semibold mb-6">Choose Template</h2>
+          <h2 className="text-2xl font-semibold mb-6"> Step 4. Choose Template</h2>
           <PathSelector
             paths={paths}
             selectedPath={selectedPath}
@@ -82,12 +85,13 @@ export function TemplateBuilder({ paths }: TemplateBuilderProps): JSX.Element {
 
         {/* Middle column - Stack Selection */}
         <div>
-          <h2 className="text-2xl font-semibold mb-6">Configure Stack</h2>
+          <h2 className="text-2xl font-semibold mb-6">Step 3. Configure Stack</h2>
           {selectedPath ? (
             <ProjectWizard
               templatePath={selectedPath}
               onCommandChange={setCommand}
               onSelectionsChange={handleSelectionsChange}
+              isExpertMode={isExpertMode !== undefined ? isExpertMode : undefined} // Ensure optional prop is passed
             />
           ) : (
             <div className="text-gray-500 dark:text-gray-400">

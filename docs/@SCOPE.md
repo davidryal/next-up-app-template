@@ -30,7 +30,7 @@
 - 💡 `UI v0.7` Interactive previews for UI frameworks
 
 ## Tech Stack
-- Next.js 14.0.4
+- Next.js 15
 - React 18.2.0
 - Tailwind CSS
 - TypeScript
@@ -52,7 +52,6 @@
 - ✅ Simplified README with clear setup instructions
 - ✅ Consolidated development guidelines
 - ✅ Stack option documentation with complexity levels
-- ⚒️ Template creation guide
 
 ## Notes
 - Stack options are organized by complexity (beginner/intermediate/expert)

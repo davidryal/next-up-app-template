@@ -7,7 +7,7 @@ interface ProjectWizardProps {
   templatePath: string;
   onCommandChange: (command: string) => void;
   onSelectionsChange: (selections: Record<string, string[]>) => void;
-  isExpertMode: boolean;
+  isExpertMode?: boolean;
 }
 
 interface Option {
@@ -277,22 +277,20 @@ export function ProjectWizard({
       });
     }
     return options.sort((a, b) => {
-      // Special case for hosting: local should still be first
-      if (options === hosting) {
-        if (a.id === 'local') return -1;
-        if (b.id === 'local') return 1;
-      }
       return a.complexity === 'expert' ? -1 : 
              b.complexity === 'expert' ? 1 : 
              a.complexity === 'intermediate' ? -1 : 
-             b.complexity === 'intermediate' ? 1 : 0;
+             b.complexity === 'intermediate' ? 1 : 
+             a.complexity === 'beginner' ? -1 : 
+             b.complexity === 'beginner' ? 1 : 0;
     });
   };
 
   // Initialize default selections when mode changes or component mounts
   React.useEffect(() => {
     const defaultSelections = steps.reduce((acc, step) => {
-      acc[step.id] = [getDefaultSelection(step.options)];
+      // Only use default if no selection exists for this step
+      acc[step.id] = selection[step.id] || [getDefaultSelection(step.options)];
       return acc;
     }, {} as Record<string, string[]>);
 
@@ -308,6 +306,7 @@ export function ProjectWizard({
   }, [isExpertMode, templatePath]);
 
   const handleSelect = (stepId: string, optionId: string) => {
+    // Preserve existing selections and only update the changed step
     const newSelection = {
       ...selection,
       [stepId]: [optionId],
@@ -319,6 +318,7 @@ export function ProjectWizard({
     setJustClicked(optionId);
     setTimeout(() => setJustClicked(null), 1000);
 
+    // Build command string with all selections
     const command = `npx create-next-app@latest --template ${templatePath}${
       Object.entries(newSelection)
         .map(([key, value]) => value[0] ? ` --${key} ${value[0]}` : '')

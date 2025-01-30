@@ -1,8 +1,45 @@
 # Next Up - The Universal App Template
 
-A modern, interactive template wizard for building Next.js applications with your perfect tech stack.
+A modern, interactive template wizard for building lightweight and cross-platform Next.js applications with your perfect tech stack.
 
-## Features
+## 🚀 Quickstart Guide
+
+### Prerequisites
+- Node.js 18+ (recommended)
+- npm, yarn, or pnpm
+- Git
+
+### Installation
+
+1. **Interactive Project Creation**
+   ```bash
+   npx create-next-app@latest --template next-up-app-template
+   ```
+
+2. **Manual Installation**
+   ```bash
+   # Clone the repository
+   git clone https://github.com/davidryal/next-up-app-template.git my-project
+   
+   # Navigate to project directory
+   cd my-project
+   
+   # Install dependencies
+   npm install
+   
+   # Start development server
+   npm run dev
+   ```
+
+### Development Commands
+
+- `npm run dev`: Start development server
+- `npm run build`: Create production build
+- `npm run start`: Run production server
+- `npm run lint`: Run ESLint
+- `npm run test`: Run Jest test suite
+
+## 📦 Features
 
 - **Smart Defaults**: Start with sensible choices pre-selected
 - **Dark/Light Theme**: Automatically matches your system preference
@@ -51,12 +88,40 @@ A modern, interactive template wizard for building Next.js applications with you
 - **LangChain**: AI orchestration
 - **Custom**: Bring your own AI
 
-## Support
+## 🧪 Testing
+
+This template includes a comprehensive testing setup:
+- **Jest**: JavaScript testing framework
+- **React Testing Library**: Component and hook testing
+- **jsdom**: Browser-like environment for testing
+- **Snapshot testing**
+- **Code coverage reporting**
+
+Run tests with:
+```bash
+npm test
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📚 Documentation
+
+- [Stack Configuration Guide](./docs/STACK_CONFIG.md)
+- [Development Workflow](./docs/DEVELOPMENT.md)
+- [Deployment Guide](./docs/DEPLOYMENT.md)
+
+## 🆘 Support
 
 If you find this template helpful, consider [buying me a coffee](https://buymeacoffee.com/gopug) 
 
-## License
+## 📄 License
 
 MIT License - feel free to use this template for any project!
 
-Built with  in California
+Built with ❤️ in California
