@@ -31,11 +31,10 @@
 - Vercel deployment configuration
 - GitHub Actions CI/CD
 - Comprehensive documentation
-- `DEP:v0.4` Simplified AI SDK dependencies ✅
-  - Removed Anthropic SDK
-  - Prepared for OpenRouter integration
-  - Streamlined deployment configuration
-  - Updated README with new AI provider information
+- `DEP:v0.6` Simplified AI Route Configuration ✅
+  - Removed Anthropic API route
+  - Updated OpenAI route to use direct SDK
+  - Streamlined AI integration
 
 ## Future AI Enhancements
 1. 💡 Smart stack recommendations based on:

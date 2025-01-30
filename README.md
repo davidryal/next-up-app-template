@@ -81,14 +81,14 @@ A modern, interactive template wizard for building lightweight and cross-platfor
 - **DaisyUI**: Tailwind component library
 
 #### 5. AI Integration
-- **OpenAI**: GPT integration
- ** OpenRouter**: Multi-provider support
+- **OpenAI**: Direct SDK integration
+- **OpenRouter**: Flexible multi-provider support
 - **Replicate**: Model deployment
 - **Custom**: Bring your own AI
 
 ### Supported AI Providers
-- OpenAI (via `@ai-sdk/openai`)
-- OpenRouter (recommended for multi-provider support)
+- **OpenAI**: Direct SDK integration
+- **OpenRouter**: Flexible multi-provider support
 
 ### Deployment Notes
 - Simplified AI SDK dependencies
