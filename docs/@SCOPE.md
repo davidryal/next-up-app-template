@@ -31,10 +31,11 @@
 - Vercel deployment configuration
 - GitHub Actions CI/CD
 - Comprehensive documentation
-- `DEP:v0.2` Updated Next.js and npm configuration for improved Vercel deployment ✅
-  - Added `.npmrc` for package resolution
-  - Updated `next.config.js` with standalone output
-  - Resolved AI SDK dependency issues
+- `DEP:v0.4` Simplified AI SDK dependencies ✅
+  - Removed Anthropic SDK
+  - Prepared for OpenRouter integration
+  - Streamlined deployment configuration
+  - Updated README with new AI provider information
 
 ## Future AI Enhancements
 1. 💡 Smart stack recommendations based on:

@@ -82,11 +82,18 @@ A modern, interactive template wizard for building lightweight and cross-platfor
 
 #### 5. AI Integration
 - **OpenAI**: GPT integration
-- **Anthropic**: Claude integration
-- **Hugging Face**: Open-source models
+ ** OpenRouter**: Multi-provider support
 - **Replicate**: Model deployment
-- **LangChain**: AI orchestration
 - **Custom**: Bring your own AI
+
+### Supported AI Providers
+- OpenAI (via `@ai-sdk/openai`)
+- OpenRouter (recommended for multi-provider support)
+
+### Deployment Notes
+- Simplified AI SDK dependencies
+- Optimized for Vercel deployment
+- Easy integration with various AI providers
 
 ## Version 1.0.0 - Initial Stable Release 🚀
 
