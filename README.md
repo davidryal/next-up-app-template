@@ -92,6 +92,17 @@ A modern, interactive template wizard for building lightweight and cross-platfor
 - Optimized for Vercel deployment
 - Easy integration with various AI providers
 
+### Environment Configuration
+- Use `.env.local` for local environment variables
+- Optional API key configurations supported
+  * OpenAI transcription route can build without API key
+  * Provides fallback for development and testing
+
+### Dependency Management
+- Comprehensive `.gitignore` configuration
+- Nested `node_modules` directories automatically handled
+- Consistent package management across project subdirectories
+
 ## Version 1.0.0 - Initial Stable Release 🚀
 
 ## 🧪 Testing

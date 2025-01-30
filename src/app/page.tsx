@@ -6,9 +6,7 @@ interface HomePageProps {
   paths: Awaited<ReturnType<typeof getPaths>>;
 }
 
-const HomePage: React.FC<HomePageProps> = async () => {
+export default async function HomePage() {
   const paths = await getPaths();
   return <HomePageClient paths={paths} />;
-};
-
-export default HomePage;
+}

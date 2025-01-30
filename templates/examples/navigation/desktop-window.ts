@@ -20,7 +20,7 @@ export const windows: Record<string, AppWindow> = {
   },
   settings: {
     name: 'settings',
-    title: 'Settings',
+    title: 'Application Settings',
     url: '/settings',
     options: {
       width: 800,
@@ -30,19 +30,19 @@ export const windows: Record<string, AppWindow> = {
   }
 };
 
-export const openWindow = async (windowKey: keyof typeof windows) => {
-  const window = windows[windowKey];
-  if (!window) throw new Error(`Window ${windowKey} not found`);
+export async function openWindow(windowKey: keyof typeof windows) {
+  const windowConfig = windows[windowKey];
+  
+  if (!windowConfig) {
+    throw new Error(`Window configuration not found for key: ${windowKey}`);
+  }
 
-  const webview = new WebviewWindow(window.name, {
-    title: window.title,
-    url: window.url,
-    ...window.options
+  const webview = new WebviewWindow(windowConfig.name, {
+    url: windowConfig.url,
+    title: windowConfig.title,
+    ...windowConfig.options
   });
 
-  await webview.once('tauri://created', () => {
-    console.log('Window created');
-  });
-
+  await webview.show();
   return webview;
-};
+}

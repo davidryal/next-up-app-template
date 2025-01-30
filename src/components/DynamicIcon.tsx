@@ -39,11 +39,11 @@ export function DynamicIcon({ name, size = 24, className = '' }: DynamicIconProp
   
   // Prevent hydration mismatch by rendering nothing until mounted
   if (!mounted && (name === 'sun' || name === 'moon')) {
-    return null;
+    return <span></span>;
   }
   
   if (!IconComponent) {
-    return <></>;
+    return <span></span>;
   }
 
   return <IconComponent data-testid="dynamic-icon" size={size} className={className} />;

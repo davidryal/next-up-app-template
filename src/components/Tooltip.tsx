@@ -1,9 +1,9 @@
 'use client';
 
 import * as React from 'react';
-import { AnimatePresence, motion, type HTMLMotionProps } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 
-interface TooltipProps extends HTMLMotionProps<'div'> {
+interface TooltipProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'content'> {
   content: React.ReactNode;
   children: React.ReactNode;
   position?: 'top' | 'bottom' | 'left' | 'right';

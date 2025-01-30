@@ -34,7 +34,38 @@ export function ProjectWizard({
   const [selection, setSelection] = React.useState<Record<string, string[]>>({});
   const [activeTab, setActiveTab] = React.useState<string>('hosting');
 
-  const databases: Option[] = [
+  const hosting: Option[] = React.useMemo(() => [
+    {
+      id: 'local',
+      title: 'Local Only',
+      description: 'Development environment only',
+      iconName: 'desktop',
+      complexity: 'beginner',
+    },
+    {
+      id: 'vercel',
+      title: 'Vercel',
+      description: 'Zero config deployments',
+      iconName: 'cloud',
+      complexity: 'beginner',
+    },
+    {
+      id: 'aws',
+      title: 'AWS Amplify',
+      description: 'Full-stack deployment on AWS',
+      iconName: 'cloud',
+      complexity: 'intermediate',
+    },
+    {
+      id: 'docker',
+      title: 'Docker + Custom',
+      description: 'Containerized deployment',
+      iconName: 'cloud',
+      complexity: 'expert',
+    },
+  ], []);
+
+  const databases: Option[] = React.useMemo(() => [
     {
       id: 'prisma',
       title: 'Prisma + PostgreSQL',
@@ -70,9 +101,9 @@ export function ProjectWizard({
       iconName: 'database',
       complexity: 'beginner',
     },
-  ];
+  ], []);
 
-  const auth: Option[] = [
+  const auth: Option[] = React.useMemo(() => [
     {
       id: 'next-auth',
       title: 'NextAuth.js',
@@ -108,9 +139,9 @@ export function ProjectWizard({
       iconName: 'lock',
       complexity: 'expert',
     },
-  ];
+  ], []);
 
-  const ui: Option[] = [
+  const ui: Option[] = React.useMemo(() => [
     {
       id: 'tailwind',
       title: 'Tailwind CSS',
@@ -139,9 +170,9 @@ export function ProjectWizard({
       iconName: 'code',
       complexity: 'expert',
     },
-  ];
+  ], []);
 
-  const ai: Option[] = [
+  const ai: Option[] = React.useMemo(() => [
     {
       id: 'none',
       title: 'None/Custom',
@@ -170,40 +201,9 @@ export function ProjectWizard({
       iconName: 'ai',
       complexity: 'expert',
     },
-  ];
+  ], []);
 
-  const hosting: Option[] = [
-    {
-      id: 'local',
-      title: 'Local Only',
-      description: 'Development environment only',
-      iconName: 'desktop',
-      complexity: 'beginner',
-    },
-    {
-      id: 'vercel',
-      title: 'Vercel',
-      description: 'Zero config deployments',
-      iconName: 'cloud',
-      complexity: 'beginner',
-    },
-    {
-      id: 'aws',
-      title: 'AWS Amplify',
-      description: 'Full-stack deployment on AWS',
-      iconName: 'cloud',
-      complexity: 'intermediate',
-    },
-    {
-      id: 'docker',
-      title: 'Docker + Custom',
-      description: 'Containerized deployment',
-      iconName: 'cloud',
-      complexity: 'expert',
-    },
-  ];
-
-  const analytics: Option[] = [
+  const analytics: Option[] = React.useMemo(() => [
     {
       id: 'none',
       title: 'None/Custom',
@@ -232,16 +232,16 @@ export function ProjectWizard({
       iconName: 'chart',
       complexity: 'expert',
     },
-  ];
+  ], []);
 
-  const steps: Step[] = [
+  const steps: Step[] = React.useMemo(() => [
     { id: 'hosting', title: 'Hosting', options: hosting },
     { id: 'database', title: 'Database', options: databases },
     { id: 'auth', title: 'Authentication', options: auth },
     { id: 'ui', title: 'UI Framework', options: ui },
     { id: 'ai', title: 'AI Integration', options: ai },
     { id: 'analytics', title: 'Analytics', options: analytics },
-  ];
+  ], [hosting, databases, auth, ui, ai, analytics]);
 
   // Memoize helper functions
   const sortOptions = React.useCallback((options: Option[]): Option[] => {
@@ -249,29 +249,21 @@ export function ProjectWizard({
       return options.sort((a, b) => {
         // Special case for hosting: local should always be first in beginner mode
         if (options === hosting) {
-          if (a.id === 'local') return -1;
-          if (b.id === 'local') return 1;
+          return a.id === 'local' ? -1 : b.id === 'local' ? 1 : 0;
         }
-        // Special case for AI and Analytics: none/custom should be first in beginner mode
-        if ((options === ai || options === analytics) && (a.id === 'none' || b.id === 'none')) {
-          if (a.id === 'none') return -1;
-          if (b.id === 'none') return 1;
-        }
-        return a.complexity === 'beginner' ? -1 : 
-               b.complexity === 'beginner' ? 1 : 
-               a.complexity === 'intermediate' ? -1 : 
-               b.complexity === 'intermediate' ? 1 : 0;
+        
+        // Sort by complexity for other option lists
+        const complexityOrder = {
+          'beginner': 0,
+          'intermediate': 1,
+          'expert': 2
+        };
+        
+        return complexityOrder[a.complexity] - complexityOrder[b.complexity];
       });
     }
-    return options.sort((a, b) => {
-      return a.complexity === 'expert' ? -1 : 
-             b.complexity === 'expert' ? 1 : 
-             a.complexity === 'intermediate' ? -1 : 
-             b.complexity === 'intermediate' ? 1 : 
-             a.complexity === 'beginner' ? -1 : 
-             b.complexity === 'beginner' ? 1 : 0;
-    });
-  }, [isExpertMode]);
+    return options;
+  }, [isExpertMode, hosting]);
 
   const getDefaultSelection = React.useCallback((options: Option[]): string => {
     const sortedOptions = sortOptions(options);
@@ -299,6 +291,19 @@ export function ProjectWizard({
     steps,
     templatePath
   ]);
+
+  React.useEffect(() => {
+    const selectedOptions = Object.entries(selection)
+      .filter(([_, values]) => values.length > 0)
+      .map(([key, values]) => ({ key, values }));
+
+    const command = selectedOptions.map(({ key, values }) => 
+      `--${key}=${values.join(',')}`
+    ).join(' ');
+
+    onCommandChange(command);
+    onSelectionsChange(selection);
+  }, [selection, onCommandChange, onSelectionsChange, steps]);
 
   const handleSelect = (stepId: string, optionId: string) => {
     // Preserve existing selections and only update the changed step
