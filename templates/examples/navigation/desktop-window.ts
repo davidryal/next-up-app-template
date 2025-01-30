@@ -1,10 +1,25 @@
-import { WebviewWindow, WindowOptions } from '@tauri-apps/api/window';
+// Conditional import for Tauri API
+type WindowOptionsType = {
+  width?: number;
+  height?: number;
+  resizable?: boolean;
+};
+
+let WebviewWindow: any;
+try {
+  const tauriModule = require('@tauri-apps/api/window');
+  WebviewWindow = tauriModule.WebviewWindow;
+  // Use Tauri's WindowOptions if available
+  type WindowOptionsType = typeof tauriModule.WindowOptions;
+} catch {
+  // Fallback type already defined above
+}
 
 export interface AppWindow {
   name: string;
   title: string;
   url: string;
-  options?: WindowOptions;
+  options?: WindowOptionsType;
 }
 
 export const windows: Record<string, AppWindow> = {
@@ -30,19 +45,22 @@ export const windows: Record<string, AppWindow> = {
   }
 };
 
-export async function openWindow(windowKey: keyof typeof windows) {
+export function openWindow(windowKey: keyof typeof windows) {
   const windowConfig = windows[windowKey];
   
-  if (!windowConfig) {
-    throw new Error(`Window configuration not found for key: ${windowKey}`);
+  // Web-compatible window opening
+  if (typeof window !== 'undefined') {
+    window.open(windowConfig.url, windowConfig.name, 
+      `width=${windowConfig.options?.width || 800},` +
+      `height=${windowConfig.options?.height || 600},` +
+      `resizable=${windowConfig.options?.resizable ?? true}`
+    );
   }
 
-  const webview = new WebviewWindow(windowConfig.name, {
-    url: windowConfig.url,
-    title: windowConfig.title,
-    ...windowConfig.options
-  });
+  // Tauri-specific window creation (if available)
+  if (WebviewWindow) {
+    return new WebviewWindow(windowConfig.name, windowConfig.options);
+  }
 
-  await webview.show();
-  return webview;
+  return null;
 }
