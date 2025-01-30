@@ -1,3 +1,18 @@
+---
+title: AI Chat Application
+description: Build a real-time chat interface with AI capabilities using Vercel AI SDK
+icon: message-square
+features:
+  - Real-time chat interface with AI responses
+  - Support for multiple AI models (OpenAI, Anthropic)
+  - Model selection and configuration
+  - Message history and persistence
+bestFor:
+  - AI/ML applications
+  - Interactive chat experiences
+  - Real-time applications
+---
+
 # AI Chat App
 
 You are an expert in TypeScript, Next.js App Router, React, and Tailwind. Follow @Next.js docs for Data Fetching, Rendering, and Routing. Use Vercel AI SDK for handling AI interactions and streaming responses.

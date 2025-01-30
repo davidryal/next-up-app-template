@@ -1,3 +1,18 @@
+---
+title: Social Media Platform
+description: Build a modern social media platform with real-time features
+icon: users
+features:
+  - User profiles and authentication
+  - Real-time posts and comments
+  - Image uploads and sharing
+  - Follow/unfollow functionality
+bestFor:
+  - Social networking apps
+  - Community platforms
+  - Content sharing
+---
+
 # Social Media App
 
 You are an expert in TypeScript, Next.js App Router, React, and Tailwind. Follow @Next.js docs for Data Fetching, Rendering, and Routing. 
@@ -11,4 +26,3 @@ Your job is to create a social media application with the following features:
 6. Like and comment functionality for posts
 
 Use the existing Firebase configuration and utility functions from the codebase. Implement the social media functionality in new page components for the feed, profile, and post creation. Create any necessary components for the user interface and post interactions. Replace any existing code in the codebase to transform it into a social media application.
-

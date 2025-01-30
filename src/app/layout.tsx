@@ -1,73 +1,48 @@
-import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
-import { ThemeToggle } from '@/components/ThemeToggle';
-import React from 'react';
+import * as React from 'react';
+import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Next Up - The Universal App Template',
-  description: 'Build virtually anything - from simple static sites to complex full-stack applications',
+  description: 'Build virtually anything - from simple static sites to complex full-stack applications.',
 };
 
 interface RootLayoutProps {
   children: React.ReactNode;
 }
 
-interface ThemeProviderProps {
+interface ProviderProps {
   children: React.ReactNode;
-  attribute?: string;
-  defaultTheme?: string;
-  enableSystem?: boolean;
-}
-
-interface ThemeToggleProps {
   className?: string;
 }
 
-const CustomThemeProvider: React.FC<ThemeProviderProps> = ({
-  children,
-  attribute = 'class',
-  defaultTheme = 'system',
-  enableSystem = true,
-}) => {
+function Providers({ children, className }: ProviderProps): JSX.Element {
   return (
-    <ThemeProvider attribute={attribute} defaultTheme={defaultTheme} enableSystem={enableSystem}>
-      {children}
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <div className={className}>
+        {children}
+      </div>
     </ThemeProvider>
   );
-};
+}
 
-const CustomThemeToggle: React.FC<ThemeToggleProps> = ({ className }) => {
-  return <ThemeToggle className={className} />;
-};
-
-export default function RootLayout({ children }: RootLayoutProps): React.ReactElement {
+export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
       <body className={inter.className}>
-        <CustomThemeProvider>
-          <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-            <div className="absolute top-4 right-4">
-              <CustomThemeToggle />
-            </div>
-            <main className="pt-4">{children}</main>
-            <footer className="py-6 text-center">
-              <div className="inline-flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
-                <a
-                  href="https://davidryalanderson.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-gray-900 dark:hover:text-gray-200 inline-flex items-center"
-                >
-                  Made with in California
-                </a>
-              </div>
-            </footer>
-          </div>
-        </CustomThemeProvider>
+        <Providers className="min-h-screen bg-white dark:bg-gray-900">
+          <main className="min-h-screen">
+            {children}
+          </main>
+        </Providers>
       </body>
     </html>
   );

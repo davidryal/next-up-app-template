@@ -1,3 +1,18 @@
+---
+title: AI Image Generator
+description: Create an image generation app with Replicate or OpenAI DALL-E
+icon: image
+features:
+  - Multiple AI model support (Replicate, DALL-E)
+  - Image generation and customization
+  - Gallery view and image management
+  - Prompt history and favorites
+bestFor:
+  - Creative tools
+  - AI/ML applications
+  - Media manipulation
+---
+
 # AI Image Generation App
 
 You are an expert in TypeScript, Next.js App Router, React, and Tailwind. Follow @Next.js docs for Data Fetching, Rendering, and Routing.

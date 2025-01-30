@@ -14,7 +14,7 @@ export interface AppPath {
 
 export async function getPaths(): Promise<AppPath[]> {
   try {
-    const pathsDir = path.join(process.cwd(), 'public', 'paths');
+    const pathsDir = path.join(process.cwd(), 'paths');
     const files = await fs.readdir(pathsDir);
     const mdFiles = files.filter(file => file.endsWith('.md'));
 
@@ -23,9 +23,13 @@ export async function getPaths(): Promise<AppPath[]> {
       const fileContent = await fs.readFile(filePath, 'utf8');
       const { data, content } = matter(fileContent);
       
+      if (!data.title) {
+        console.warn(`Warning: No title found in frontmatter for ${file}`);
+      }
+      
       return {
         id: path.basename(file, '.md'),
-        title: data.title || '',
+        title: data.title || path.basename(file, '.md'),
         description: data.description || '',
         iconName: data.icon || 'code',
         features: data.features || [],
@@ -34,7 +38,7 @@ export async function getPaths(): Promise<AppPath[]> {
       };
     }));
 
-    return paths;
+    return paths.sort((a, b) => a.title.localeCompare(b.title));
   } catch (error) {
     console.error('Error loading paths:', error);
     return [];

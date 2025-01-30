@@ -1,3 +1,18 @@
+---
+title: Voice Notes App
+description: Create a voice recording and transcription app with AI
+icon: mic
+features:
+  - Voice recording and playback
+  - AI transcription with OpenAI Whisper
+  - Note organization and search
+  - Export to multiple formats
+bestFor:
+  - Productivity tools
+  - Audio applications
+  - AI/ML integration
+---
+
 # Voice Notes App
 
 ## Path system prompt:

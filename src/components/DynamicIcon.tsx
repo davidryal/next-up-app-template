@@ -1,8 +1,7 @@
 'use client';
 
 import React from 'react';
-import * as Ri from 'react-icons/ri';
-import type { IconType } from 'react-icons';
+import * as Icons from 'lucide-react';
 
 interface DynamicIconProps {
   name: string;
@@ -10,21 +9,22 @@ interface DynamicIconProps {
   className?: string;
 }
 
-const iconMap: Record<string, IconType> = {
-  'desktop': Ri.RiComputerLine,
-  'smartphone': Ri.RiSmartphoneLine,
-  'code': Ri.RiCodeLine,
-  'check': Ri.RiCheckLine,
-  'sun': Ri.RiSunLine,
-  'moon': Ri.RiMoonLine,
-  'book': Ri.RiBookLine,
-  'database': Ri.RiDatabase2Line,
-  'lock': Ri.RiLockLine,
-  'cloud': Ri.RiCloudLine,
-  'ai': Ri.RiBrainLine,
+const iconMap: Record<string, React.ComponentType<any>> = {
+  'desktop': Icons.Desktop,
+  'smartphone': Icons.Smartphone,
+  'code': Icons.Code,
+  'check': Icons.Check,
+  'sun': Icons.Sun,
+  'moon': Icons.Moon,
+  'book': Icons.Book,
+  'database': Icons.Database,
+  'lock': Icons.Lock,
+  'cloud': Icons.Cloud,
+  'ai': Icons.Ai,
 };
 
-export function DynamicIcon({ name, size = 24, className = '' }: DynamicIconProps): React.ReactNode {
-  const Icon = iconMap[name] || Ri.RiQuestionLine;
-  return React.createElement(Icon, { size, className });
+export function DynamicIcon({ name, size = 24, className = '' }: DynamicIconProps): JSX.Element {
+  const IconComponent = iconMap[name] || Icons.Code;
+  
+  return <IconComponent size={size} className={className} />;
 }
