@@ -1,0 +1,31 @@
+{
+  "expo": {
+    "name": "next-js-template",
+    "slug": "next-js-template",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./public/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./public/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.yourcompany.nextjstemplate"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./public/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.yourcompany.nextjstemplate"
+    },
+    "web": {
+      "favicon": "./public/favicon.ico"
+    },
+    "plugins": []
+  }
+}

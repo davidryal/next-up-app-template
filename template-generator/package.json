@@ -1,0 +1,33 @@
+{
+  "name": "create-next-platform-app",
+  "version": "1.0.0",
+  "description": "CLI tool for generating Next.js cross-platform applications",
+  "main": "dist/index.js",
+  "bin": {
+    "create-next-platform-app": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "commander": "^11.1.0",
+    "inquirer": "^8.2.6",
+    "ora": "^5.4.1",
+    "fs-extra": "^11.2.0",
+    "glob": "^10.3.10"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^8.2.10",
+    "@types/node": "^20.11.0",
+    "@types/fs-extra": "^11.0.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "keywords": ["next.js", "template", "cross-platform", "cli"],
+  "author": "",
+  "license": "MIT"
+}
