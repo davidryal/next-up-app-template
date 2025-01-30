@@ -10,7 +10,7 @@ interface DynamicIconProps {
 }
 
 const iconMap: Record<string, React.ComponentType<any>> = {
-  'desktop': Icons.Desktop,
+  'monitor': Icons.Monitor,
   'smartphone': Icons.Smartphone,
   'code': Icons.Code,
   'check': Icons.Check,
@@ -20,7 +20,6 @@ const iconMap: Record<string, React.ComponentType<any>> = {
   'database': Icons.Database,
   'lock': Icons.Lock,
   'cloud': Icons.Cloud,
-  'ai': Icons.Ai,
 };
 
 export function DynamicIcon({ name, size = 24, className = '' }: DynamicIconProps): JSX.Element {

@@ -7,6 +7,7 @@ interface ProjectWizardProps {
   templatePath: string;
   onCommandChange: (command: string) => void;
   onSelectionsChange: (selections: Record<string, string[]>) => void;
+  isExpertMode: boolean;
 }
 
 interface Option {
@@ -27,11 +28,11 @@ export function ProjectWizard({
   templatePath,
   onCommandChange,
   onSelectionsChange,
+  isExpertMode,
 }: ProjectWizardProps): JSX.Element {
-  const [isExpertMode, setIsExpertMode] = React.useState(false);
   const [justClicked, setJustClicked] = React.useState<string | null>(null);
   const [selection, setSelection] = React.useState<Record<string, string[]>>({});
-  const [activeTab, setActiveTab] = React.useState<string>('database');
+  const [activeTab, setActiveTab] = React.useState<string>('hosting');
 
   const databases: Option[] = [
     {
@@ -69,13 +70,6 @@ export function ProjectWizard({
       iconName: 'database',
       complexity: 'beginner',
     },
-    {
-      id: 'custom',
-      title: 'Custom/None',
-      description: 'Build your own database integration',
-      iconName: 'code',
-      complexity: 'beginner'
-    },
   ];
 
   const auth: Option[] = [
@@ -101,36 +95,22 @@ export function ProjectWizard({
       complexity: 'intermediate',
     },
     {
+      id: 'auth0',
+      title: 'Auth0',
+      description: 'Enterprise-grade authentication',
+      iconName: 'lock',
+      complexity: 'intermediate',
+    },
+    {
       id: 'web3',
       title: 'Web3/Wallet',
       description: 'Crypto wallet authentication',
       iconName: 'lock',
       complexity: 'expert',
     },
-    {
-      id: 'auth0',
-      title: 'Auth0',
-      description: 'Enterprise-grade authentication',
-      iconName: 'lock',
-      complexity: 'beginner',
-    },
-    {
-      id: 'custom',
-      title: 'Custom/None',
-      description: 'Build your own authentication integration',
-      iconName: 'code',
-      complexity: 'beginner'
-    },
   ];
 
   const ui: Option[] = [
-    {
-      id: 'custom',
-      title: 'Custom/None',
-      description: 'Build your own design system',
-      iconName: 'code',
-      complexity: 'beginner'
-    },
     {
       id: 'tailwind',
       title: 'Tailwind CSS',
@@ -163,6 +143,13 @@ export function ProjectWizard({
 
   const ai: Option[] = [
     {
+      id: 'none',
+      title: 'None/Custom',
+      description: 'Build your own AI integration',
+      iconName: 'code',
+      complexity: 'beginner'
+    },
+    {
       id: 'openai',
       title: 'OpenAI',
       description: 'GPT-4 and DALL-E integration',
@@ -177,34 +164,34 @@ export function ProjectWizard({
       complexity: 'intermediate',
     },
     {
+      id: 'openrouter',
+      title: 'OpenRouter',
+      description: 'AI model aggregation platform',
+      iconName: 'ai',
+      complexity: 'intermediate',
+    },
+    {
       id: 'replicate',
       title: 'Replicate',
       description: 'Open source AI models',
       iconName: 'ai',
       complexity: 'expert',
     },
-    {
-      id: 'custom',
-      title: 'Custom/None',
-      description: 'Build your own AI integration',
-      iconName: 'code',
-      complexity: 'beginner'
-    },
   ];
 
   const hosting: Option[] = [
-    {
-      id: 'vercel',
-      title: 'Vercel',
-      description: 'Zero config deployments',
-      iconName: 'cloud',
-      complexity: 'beginner',
-    },
     {
       id: 'local',
       title: 'Local Only',
       description: 'Development environment only',
       iconName: 'desktop',
+      complexity: 'beginner',
+    },
+    {
+      id: 'vercel',
+      title: 'Vercel',
+      description: 'Zero config deployments',
+      iconName: 'cloud',
       complexity: 'beginner',
     },
     {
@@ -221,16 +208,16 @@ export function ProjectWizard({
       iconName: 'cloud',
       complexity: 'expert',
     },
-    {
-      id: 'custom',
-      title: 'Custom/None',
-      description: 'Build your own hosting integration',
-      iconName: 'code',
-      complexity: 'beginner'
-    },
   ];
 
   const analytics: Option[] = [
+    {
+      id: 'none',
+      title: 'None/Custom',
+      description: 'Build your own analytics integration',
+      iconName: 'code',
+      complexity: 'beginner'
+    },
     {
       id: 'google-analytics',
       title: 'Google Analytics',
@@ -252,21 +239,14 @@ export function ProjectWizard({
       iconName: 'chart',
       complexity: 'expert',
     },
-    {
-      id: 'custom',
-      title: 'Custom/None',
-      description: 'Build your own analytics integration',
-      iconName: 'code',
-      complexity: 'beginner'
-    },
   ];
 
   const steps: Step[] = [
+    { id: 'hosting', title: 'Hosting', options: hosting },
     { id: 'database', title: 'Database', options: databases },
     { id: 'auth', title: 'Authentication', options: auth },
     { id: 'ui', title: 'UI Framework', options: ui },
     { id: 'ai', title: 'AI Integration', options: ai },
-    { id: 'hosting', title: 'Hosting', options: hosting },
     { id: 'analytics', title: 'Analytics', options: analytics },
   ];
 
@@ -276,19 +256,36 @@ export function ProjectWizard({
     return sortedOptions[0].id;
   };
 
-  // Helper function to sort options with Custom/None always first
+  // Helper function to sort options based on mode
   const sortOptions = (options: Option[]): Option[] => {
     if (!isExpertMode) {
       return options.sort((a, b) => {
-        if (a.id === 'custom') return -1;
-        if (b.id === 'custom') return 1;
-        return a.complexity === 'beginner' ? -1 : b.complexity === 'beginner' ? 1 : 0;
+        // Special case for hosting: local should always be first in beginner mode
+        if (options === hosting) {
+          if (a.id === 'local') return -1;
+          if (b.id === 'local') return 1;
+        }
+        // Special case for AI and Analytics: none/custom should be first in beginner mode
+        if ((options === ai || options === analytics) && (a.id === 'none' || b.id === 'none')) {
+          if (a.id === 'none') return -1;
+          if (b.id === 'none') return 1;
+        }
+        return a.complexity === 'beginner' ? -1 : 
+               b.complexity === 'beginner' ? 1 : 
+               a.complexity === 'intermediate' ? -1 : 
+               b.complexity === 'intermediate' ? 1 : 0;
       });
     }
     return options.sort((a, b) => {
-      if (a.id === 'custom') return -1;
-      if (b.id === 'custom') return 1;
-      return a.complexity === 'expert' ? -1 : b.complexity === 'expert' ? 1 : 0;
+      // Special case for hosting: local should still be first
+      if (options === hosting) {
+        if (a.id === 'local') return -1;
+        if (b.id === 'local') return 1;
+      }
+      return a.complexity === 'expert' ? -1 : 
+             b.complexity === 'expert' ? 1 : 
+             a.complexity === 'intermediate' ? -1 : 
+             b.complexity === 'intermediate' ? 1 : 0;
     });
   };
 
@@ -331,51 +328,12 @@ export function ProjectWizard({
   };
 
   return React.createElement('div', {
+    key: 'wizard',
     className: 'space-y-6',
     children: [
-      // Expert mode toggle
-      React.createElement('button', {
-        onClick: () => setIsExpertMode(!isExpertMode),
-        className: 'w-full flex items-center justify-between p-4 rounded-lg border border-amber-200 bg-amber-50 dark:border-amber-900/50 dark:bg-amber-900/20',
-        children: [
-          React.createElement('div', {
-            key: 'content',
-            className: 'flex items-center space-x-3',
-            children: [
-              React.createElement(DynamicIcon, {
-                key: 'icon',
-                name: isExpertMode ? 'code' : 'lightbulb',
-                size: 24,
-                className: 'text-amber-600 dark:text-amber-400'
-              }),
-              React.createElement('div', {
-                key: 'text',
-                children: [
-                  React.createElement('div', {
-                    key: 'title',
-                    className: 'font-medium text-amber-900 dark:text-amber-100',
-                    children: isExpertMode ? 'Expert Mode' : 'Guided Mode'
-                  }),
-                  React.createElement('div', {
-                    key: 'description',
-                    className: 'text-sm text-amber-700 dark:text-amber-300',
-                    children: isExpertMode ? 'Advanced options first' : 'Guided setup with explanations'
-                  })
-                ]
-              })
-            ]
-          }),
-          React.createElement(DynamicIcon, {
-            key: 'check',
-            name: isExpertMode ? 'code' : 'check',
-            size: 20,
-            className: 'text-amber-600 dark:text-amber-400'
-          })
-        ]
-      }),
-
       // Tab navigation
       React.createElement('div', {
+        key: 'tabs',
         className: 'flex flex-wrap gap-2 mb-6',
         children: steps.map(step => 
           React.createElement('button', {
@@ -394,7 +352,8 @@ export function ProjectWizard({
                       step.id === 'auth' ? 'lock' :
                       step.id === 'ui' ? 'layout' :
                       step.id === 'ai' ? 'brain' :
-                      'server',
+                      step.id === 'hosting' ? 'server' :
+                      'chart',
                 size: 14,
                 className: 'inline-block mr-1.5 -mt-0.5'
               }),
@@ -406,6 +365,7 @@ export function ProjectWizard({
 
       // Active tab content
       React.createElement('div', {
+        key: 'content',
         className: 'space-y-4',
         children: steps
           .filter(step => step.id === activeTab)
@@ -427,59 +387,49 @@ export function ProjectWizard({
                     }
                   `,
                   children: React.createElement('div', {
-                    className: 'flex items-center justify-between',
+                    key: 'content',
+                    className: 'flex items-start space-x-3',
                     children: [
                       React.createElement('div', {
-                        key: 'content',
-                        className: 'flex items-center space-x-3',
+                        key: 'icon',
+                        className: 'text-xl text-gray-600 dark:text-gray-400 pt-0.5',
+                        children: React.createElement(DynamicIcon, {
+                          key: 'icon',
+                          name: option.iconName,
+                          size: 20
+                        })
+                      }),
+                      React.createElement('div', {
+                        key: 'text',
+                        className: 'flex-1 min-w-0',
                         children: [
                           React.createElement('div', {
-                            key: 'icon',
-                            className: 'text-xl text-gray-600 dark:text-gray-400',
-                            children: React.createElement(DynamicIcon, {
-                              name: option.iconName,
-                              size: 24
-                            })
-                          }),
-                          React.createElement('div', {
-                            key: 'text',
+                            key: 'title-complexity',
+                            className: 'flex items-center',
                             children: [
-                              React.createElement('div', {
-                                key: 'title-complexity',
-                                className: 'flex items-center space-x-2',
-                                children: [
-                                  React.createElement('h4', {
-                                    key: 'title',
-                                    className: 'font-medium',
-                                    children: option.title
-                                  }),
-                                  React.createElement('span', {
-                                    key: 'complexity',
-                                    className: `
-                                      text-xs px-2 py-0.5 rounded-full
-                                      ${option.id === 'custom' ? 'hidden' :
-                                        option.complexity === 'beginner' ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300' :
-                                        option.complexity === 'intermediate' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300' :
-                                        'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-300'}
-                                    `,
-                                    children: option.id === 'custom' ? '' : option.complexity
-                                  })
-                                ]
+                              React.createElement('span', {
+                                key: 'title',
+                                className: 'font-medium',
+                                children: option.title
                               }),
-                              React.createElement('p', {
-                                key: 'description',
-                                className: 'text-sm text-gray-600 dark:text-gray-400',
-                                children: option.description
+                              React.createElement('span', {
+                                key: 'complexity',
+                                className: `
+                                  ml-2 px-2 py-0.5 text-xs rounded-full
+                                  ${option.complexity === 'beginner' ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300' :
+                                    option.complexity === 'intermediate' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300' :
+                                    'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-300'}
+                                `,
+                                children: option.complexity
                               })
                             ]
+                          }),
+                          React.createElement('p', {
+                            key: 'description',
+                            className: 'text-sm text-gray-600 dark:text-gray-400',
+                            children: option.description
                           })
                         ]
-                      }),
-                      isSelected && React.createElement(DynamicIcon, {
-                        key: 'check',
-                        name: 'check',
-                        size: 20,
-                        className: 'text-blue-500'
                       })
                     ]
                   })

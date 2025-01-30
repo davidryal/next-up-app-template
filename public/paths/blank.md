@@ -1,32 +1,21 @@
----
-title: "Blank Template"
-description: "A clean slate for your Next.js project. Start with a minimal setup and add only what you need."
-icon: "code"
-features:
-  - "Minimal Next.js setup"
-  - "TypeScript configuration"
-  - "ESLint and Prettier"
-  - "Basic project structure"
-bestFor:
-  - "Learning Next.js from scratch"
-  - "Custom projects with specific requirements"
-  - "Experienced developers who prefer minimal boilerplate"
----
-
 # Blank Template
-
+## Overview
 A clean slate for your Next.js project. Start with a minimal setup and add only what you need.
 
-## Features
+### Key Features
 - Minimal Next.js setup
 - TypeScript configuration
 - ESLint and Prettier
 - Basic project structure
 
-## Best For
+### Best For
 - Learning Next.js from scratch
-- Custom projects with specific requirements
-- Experienced developers who prefer minimal boilerplate
+- Building custom solutions
+- Experimenting with new ideas
 
-## Getting Started
-Choose your preferred database, authentication method, and target platforms to customize your blank template.
+### Getting Started
+1. Create your project using this template
+2. Add dependencies as needed
+3. Start building your application
+
+This template provides the essential foundation for any Next.js project. Perfect for developers who want complete control over their project structure and dependencies.

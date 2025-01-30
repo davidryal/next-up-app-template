@@ -5,47 +5,74 @@
 project/
 ├─ src/
 │  ├─ app/                   # Next.js App Router
-│  │  ├─ (auth)/            # Auth-required routes
-│  │  ├─ api/               # API routes
-│  │  └─ layout.tsx         # Root layout
+│  │  ├─ layout.tsx         # Root layout with theme
+│  │  └─ page.tsx          # Home page with wizard
 │  ├─ components/
-│  │  ├─ ui/               # Reusable UI components
-│  │  └─ features/         # Feature-specific components
-│  ├─ lib/                 # Shared utilities
-│  │  ├─ auth/            # Authentication utilities
-│  │  ├─ db/              # Database utilities
-│  │  └─ utils/           # General utilities
-│  ├─ hooks/              # Custom React hooks
-│  └─ types/              # TypeScript types
-├─ prisma/
-│  └─ schema.prisma       # Database schema
-└─ public/                # Static assets
+│  │  ├─ HomePageClient.tsx # Main wizard container
+│  │  ├─ ProjectWizard.tsx  # Stack configuration
+│  │  ├─ PathSelector.tsx   # Template selection
+│  │  └─ ui/               # Shared UI components
+│  └─ lib/                 # Shared utilities
+├─ public/
+│  └─ paths/              # Template markdown files
+└─ docs/                  # Documentation
+   └─ @SCOPE.md          # Project progress tracking
 ```
 
-## Tech Stack
-- Next.js 14 with App Router
-- TypeScript for type safety
-- Tailwind CSS for styling
-- Framer Motion for animations
-- ESLint and Prettier for code quality
+## Core Components
 
-## Best Practices
-1. **Code Organization**
-   - Use feature-based folder structure
-   - Keep components small and focused
-   - Implement proper TypeScript types
+### HomePageClient
+- Main wizard container
+- Manages template selection
+- Coordinates stack configuration
 
-2. **State Management**
-   - Use React Query for server state
-   - React Context for global UI state
-   - Local state for component-specific data
+### ProjectWizard
+- Stack option configuration
+- Complexity-based filtering
+- Command generation
+
+### PathSelector
+- Template browsing and selection
+- Markdown parsing for templates
+- Feature display
+
+## Development Workflow
+
+1. **Template Updates**
+   - Add markdown files in `/public/paths`
+   - First line is title
+   - Include features and target audience
+
+2. **Stack Options**
+   - Update arrays in `ProjectWizard.tsx`
+   - Include complexity levels
+   - Maintain consistent structure
 
 3. **Testing**
-   - Write unit tests for utilities
-   - Component tests with React Testing Library
-   - Integration tests for critical paths
+   ```bash
+   # Install dependencies
+   npm install
 
-4. **Performance**
-   - Implement proper code splitting
-   - Use Next.js Image optimization
-   - Minimize client-side JavaScript
+   # Run development server
+   npm run dev
+
+   # Build for production
+   npm run build
+   ```
+
+## Best Practices
+
+1. **Code Organization**
+   - Keep components focused and small
+   - Use TypeScript for type safety
+   - Follow existing patterns
+
+2. **UI/UX**
+   - Maintain dark mode support
+   - Keep wizard flow intuitive
+   - Use consistent styling
+
+3. **Documentation**
+   - Update @SCOPE.md for changes
+   - Keep README.md current
+   - Document new features

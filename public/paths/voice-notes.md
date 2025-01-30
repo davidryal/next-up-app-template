@@ -1,5 +1,4 @@
 # Voice Notes App
-
 ## Overview
 A voice-based note-taking application with advanced transcription capabilities.
 

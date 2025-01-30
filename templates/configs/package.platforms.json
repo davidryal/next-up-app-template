@@ -1,0 +1,29 @@
+{
+  "web": {
+    "dependencies": {
+      "@tanstack/react-query": "^5.65.1",
+      "@trpc/client": "^10.45.2",
+      "@trpc/react-query": "^10.45.2",
+      "@trpc/server": "^10.45.2",
+      "next": "15.1.6"
+    }
+  },
+  "mobile": {
+    "dependencies": {
+      "@expo/next-adapter": "^5.0.2",
+      "expo": "^50.0.0",
+      "react-native-web": "^0.19.10"
+    },
+    "devDependencies": {
+      "expo-cli": "^6.3.10"
+    }
+  },
+  "desktop": {
+    "dependencies": {
+      "@tauri-apps/api": "^1.5.3"
+    },
+    "devDependencies": {
+      "@tauri-apps/cli": "^1.5.9"
+    }
+  }
+}

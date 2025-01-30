@@ -1,5 +1,4 @@
 # AI Chat App
-
 ## Overview
 An intelligent conversational application powered by cutting-edge AI technologies.
 

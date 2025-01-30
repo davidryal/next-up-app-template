@@ -1,5 +1,4 @@
 # Social Media App
-
 ## Overview
 A feature-rich social platform with modern web technologies.
 

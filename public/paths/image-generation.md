@@ -1,5 +1,4 @@
 # AI Image Generation App
-
 ## Overview
 Create stunning images from text prompts using advanced AI technology.
 

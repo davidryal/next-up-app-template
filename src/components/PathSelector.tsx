@@ -37,13 +37,13 @@ export function PathSelector({ paths = [], selectedPath, onSelect }: PathSelecto
               }
             `}
           >
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-3 pr-24">
               <div className="text-xl text-gray-600 dark:text-gray-400">
-                <DynamicIcon name={path.iconName} size={24} />
+                <DynamicIcon name={path.iconName} size={20} />
               </div>
-              <div>
-                <h4 className="font-medium">{path.title}</h4>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
+              <div className="min-w-0 flex-1">
+                <h4 className="font-medium whitespace-normal">{path.template.split('\n')[0].replace(/^#\s+/, '')}</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
                   {path.description}
                 </p>
               </div>
@@ -51,16 +51,16 @@ export function PathSelector({ paths = [], selectedPath, onSelect }: PathSelecto
           </button>
           <button
             onClick={() => setSelectedInfo(selectedInfo === path.id ? null : path.id)}
-            className="absolute right-2 top-2 p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+            className="absolute right-2 top-2 p-2 px-3 text-sm font-medium text-amber-900 dark:text-amber-100 bg-amber-50 hover:bg-amber-100 dark:bg-amber-900/20 dark:hover:bg-amber-900/30 border border-amber-200 dark:border-amber-800 rounded-lg"
           >
-            <DynamicIcon name="info-circle" size={20} />
+            See prompt
           </button>
           {selectedInfo === path.id && (
             <div
               className="mt-2 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
             >
               <div className="prose dark:prose-invert max-w-none">
-                <div dangerouslySetInnerHTML={{ __html: marked(path.template) }} />
+                <div dangerouslySetInnerHTML={{ __html: marked(path.template.split('\n').slice(2).join('\n')) }} />
               </div>
             </div>
           )}

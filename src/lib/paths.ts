@@ -14,7 +14,7 @@ export interface AppPath {
 
 export async function getPaths(): Promise<AppPath[]> {
   try {
-    const pathsDir = path.join(process.cwd(), 'paths');
+    const pathsDir = path.join(process.cwd(), 'public', 'paths');
     const files = await fs.readdir(pathsDir);
     const mdFiles = files.filter(file => file.endsWith('.md'));
 
