@@ -23,10 +23,6 @@ export async function getPaths(): Promise<AppPath[]> {
       const fileContent = await fs.readFile(filePath, 'utf8');
       const { data, content } = matter(fileContent);
       
-      if (!data.title) {
-        console.warn(`Warning: No title found in frontmatter for ${file}`);
-      }
-      
       return {
         id: path.basename(file, '.md'),
         title: data.title || path.basename(file, '.md'),

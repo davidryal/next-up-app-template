@@ -10,15 +10,17 @@ Create stunning images from text prompts using advanced AI technology.
 
 ### Technologies
 - Next.js 14
-- React 18
-- Replicate API
+- Replicate AI
 - Tailwind CSS
+- Image generation models
+
+### Best For
+- Creative professionals
+- Marketing teams
+- Design inspiration
+- Rapid prototyping
 
 ### Getting Started
-1. Clone the repository
-2. Install dependencies
-3. Set up Replicate API key
-4. Run the development server
-
-## Deployment
-Simple deployment process with Vercel platform.
+1. Set up Replicate API credentials
+2. Configure image generation parameters
+3. Explore different AI models

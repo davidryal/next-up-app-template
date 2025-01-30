@@ -2,9 +2,9 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { HomePageClient } from '../HomePageClient';
-import type { AppPath } from '@/lib/paths';
 
-const mockPaths: AppPath[] = [
+// Mock the paths import to avoid potential resolution issues
+const mockPaths = [
   { 
     id: 'test-path', 
     title: 'Test Path', 
@@ -15,6 +15,14 @@ const mockPaths: AppPath[] = [
     template: ''
   }
 ];
+
+// Mock next-themes to avoid issues with theme hooks
+jest.mock('next-themes', () => ({
+  useTheme: () => ({
+    theme: 'light',
+    setTheme: jest.fn()
+  })
+}));
 
 describe('HomePageClient', () => {
   test('renders homepage client with paths', () => {

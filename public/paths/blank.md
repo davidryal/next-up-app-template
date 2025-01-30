@@ -9,9 +9,9 @@ A clean slate for your Next.js project. Start with a minimal setup and add only 
 - Basic project structure
 
 ### Best For
-- Learning Next.js from scratch
-- Building custom solutions
-- Experimenting with new ideas
+- Developers starting from scratch
+- Learning Next.js fundamentals
+- Highly customized projects
 
 ### Getting Started
 1. Create your project using this template

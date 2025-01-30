@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import * as Icons from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
 
 export interface DynamicIconProps {
   name: string;
@@ -10,38 +10,41 @@ export interface DynamicIconProps {
 }
 
 const iconMap: Record<string, React.ComponentType<any>> = {
-  'monitor': Icons.Monitor,
-  'smartphone': Icons.Smartphone,
-  'code': Icons.Code,
-  'check': Icons.Check,
-  'sun': Icons.Sun,
-  'moon': Icons.Moon,
-  'book': Icons.Book,
-  'database': Icons.Database,
-  'lock': Icons.Lock,
-  'cloud': Icons.Cloud,
-  'chart': Icons.LineChart,
-  'brain': Icons.Brain,
-  'server': Icons.Server,
-  'layout': Icons.Layout,
-  'ai': Icons.Cpu,
-  'desktop': Icons.Monitor
+  'monitor': LucideIcons.Monitor,
+  'smartphone': LucideIcons.Smartphone,
+  'code': LucideIcons.Code,
+  'check': LucideIcons.Check,
+  'sun': LucideIcons.Sun,
+  'moon': LucideIcons.Moon,
+  'book': LucideIcons.Book,
+  'database': LucideIcons.Database,
+  'lock': LucideIcons.Lock,
+  'cloud': LucideIcons.Cloud,
+  'chart': LucideIcons.LineChart,
+  'brain': LucideIcons.Brain,
+  'server': LucideIcons.Server,
+  'layout': LucideIcons.Layout,
+  'ai': LucideIcons.Cpu,
+  'desktop': LucideIcons.Monitor
 };
 
 export function DynamicIcon({ name, size = 24, className = '' }: DynamicIconProps): JSX.Element {
-  // Use useEffect to ensure client-side only rendering for theme-related icons
   const [mounted, setMounted] = React.useState(false);
-  
+
   React.useEffect(() => {
     setMounted(true);
   }, []);
 
-  const IconComponent = iconMap[name] || Icons.Code;
+  const IconComponent = iconMap[name] || LucideIcons.Code;
   
   // Prevent hydration mismatch by rendering nothing until mounted
   if (!mounted && (name === 'sun' || name === 'moon')) {
-    return <span className={className} style={{ width: size, height: size }} />;
+    return null;
   }
   
-  return <IconComponent size={size} className={className} />;
+  if (!IconComponent) {
+    return <></>;
+  }
+
+  return <IconComponent data-testid="dynamic-icon" size={size} className={className} />;
 }

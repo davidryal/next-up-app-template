@@ -88,6 +88,8 @@ A modern, interactive template wizard for building lightweight and cross-platfor
 - **LangChain**: AI orchestration
 - **Custom**: Bring your own AI
 
+## Version 1.0.0 - Initial Stable Release 🚀
+
 ## 🧪 Testing
 
 This template includes a comprehensive testing setup:

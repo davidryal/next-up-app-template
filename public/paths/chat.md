@@ -3,15 +3,21 @@
 An intelligent conversational application powered by cutting-edge AI technologies.
 
 ### Key Features
-- Real-time AI-powered conversations
-- Multiple AI model integrations
-- Seamless Next.js implementation
+- Advanced AI language models
+- Real-time conversation
+- Multi-language support
+- Contextual understanding
+
+### Best For
+- Customer support platforms
+- Interactive AI assistants
+- Language learning tools
+- Conversational interfaces
 
 ### Technologies
 - Next.js 14
-- React 18
 - OpenAI/Anthropic APIs
-- Tailwind CSS
+- WebSocket integration
 
 ### Getting Started
 1. Clone the repository

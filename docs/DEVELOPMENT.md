@@ -49,16 +49,32 @@ project/
    - Maintain consistent structure
 
 3. **Testing**
-   ```bash
-   # Install dependencies
-   npm install
+   - Use Jest for component testing
+   - Run `npm test` to validate changes
+   - Ensure 100% component coverage
 
-   # Run development server
-   npm run dev
+4. 💡 **Custom Package Addition**
+   - Use `npm install <package-name>` for frontend packages
+   - Use `npm install -D <package-name>` for dev dependencies
+   - Update `package.json` with version constraints
+   - Validate compatibility with existing stack
 
-   # Build for production
-   npm run build
-   ```
+5. 💡 **Workflow Extensions**
+   - **Static Site Generation (SSG)**:
+     * Leverage Next.js built-in SSG capabilities
+     * Use `getStaticProps` for data fetching
+   - **WordPress Integration**:
+     * Install `@wordpress/api`
+     * Configure data fetching in `lib/wordpress.ts`
+   - **One-Line Prompt Generation**:
+     * Use `npx generate-project-prompt` 
+     * Customize output in project configuration
+
+6. 💡 **Clean Command**
+   - Removes unused dependencies
+   - Optimizes project structure
+   - Run `npm run clean` periodically
+   - Helps maintain lean project setup
 
 ## Best Practices
 
